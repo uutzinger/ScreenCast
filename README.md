@@ -1,7 +1,7 @@
 # ScreenCast
 Cast to multiple computer
 
-This program captures desktop screen or camera and sends it to multiple receivers for display
+These programs captures the desktop screen or camera and send it to multiple receivers for display.
 
 It is based on examples found here:
 Screen Capture https://www.pyimagesearch.com/2018/01/01/taking-screenshots-with-opencv-and-python/
