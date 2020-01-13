@@ -1,3 +1,26 @@
+###############################################################################
+# Screen Cast
+# This program receives images from multiple sources, tiles them and displays them.
+# It is based on examples found here:
+# Screen Capture https://www.pyimagesearch.com/2018/01/01/taking-screenshots-with-opencv-and-python/
+# ImageZMQ: https://www.pyimagesearch.com/2019/04/15/live-video-streaming-over-network-with-opencv-and-imagezmq/
+#
+# This code is freeware: no supprt, no warranty, no liability
+# Urs Utiznger
+# 2020
+###############################################################################
+# Installation instructions:
+# 
+# In CMD shell:
+#  pip3 install opencv-contrib-python
+#  pip3 install imutils
+#  pip3 install numpy
+#  pip3 install pyzmq
+#  git clone https://github.com/jeffbass/imagezmq.git
+# Using fileexplorer:
+#  copy imagezmq/imagezmq.py to where you keep this code
+###############################################################################
+
 # import the necessary packages
 from datetime import datetime
 import numpy as np
@@ -5,7 +28,6 @@ import math
 import imagezmq
 import imutils
 import cv2
-import imutils
 
 # initialize variables
 frameDict = {}

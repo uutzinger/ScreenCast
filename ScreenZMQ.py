@@ -1,9 +1,11 @@
 ###############################################################################
 # Screen Cast
-#
+# This program captures desktop screen and sends it to multiple receivers for display
+# It is based on examples found here:
 # Screen Capture https://www.pyimagesearch.com/2018/01/01/taking-screenshots-with-opencv-and-python/
 # ImageZMQ: https://www.pyimagesearch.com/2019/04/15/live-video-streaming-over-network-with-opencv-and-imagezmq/
 #
+# This code is freeware: no supprt, no warranty, no liability
 # Urs Utiznger
 # 2020
 ###############################################################################
