@@ -25,22 +25,31 @@
 #  copy imagezmq/imagezmq.py to where you keep this code
 ###############################################################################
 
+import socket
+import time
 import imutils
 import numpy as np
 import cv2
 import imagezmq
-import socket
-import time
 # from mss.windows import MSS as mss
-from PIL import ImageGrab
+from PIL             import ImageGrab
+from multiprocessing import Process, Queue
 
 jpegQuality = 95
 imageDifference = 50000
 fpsMax = 15
 resolution = 1080
 monitor = 0
+FPS = True
 
-# sct =  mss()
+def publish(queue, hostname:
+    # type: (Queue) -> None
+    jpgBuffer = Queue.get()
+    #sender_0.send_jpg(hostName, jpgBuffer) 
+    #sender_1.send_jpg(hostName, jpgBuffer)
+    #sender_2.send_jpg(hostName, jpgBuffer)
+    #sender_3.send_jpg(hostName, jpguffer)
+
 
 # initialize the ImageSender object with the socket address of the server
 #sender_0 = imagezmq.ImageSender(connect_to="tcp://{}:5555".format("192.168.8.10"))
@@ -48,7 +57,9 @@ monitor = 0
 #sender_2 = imagezmq.ImageSender(connect_to="tcp://{}:5555".format("192.168.8.12"))
 #sender_3 = imagezmq.ImageSender(connect_to="tcp://{}:5555".format("192.168.8.13"))
 
-# Start screen grab process
+queue = Queue()  # type: Queue
+Process(target=publish, args=(queue)).start()
+
 
 # get the host na=me,
 hostName = socket.gethostname()
@@ -59,7 +70,6 @@ lastFPSTime     = cv2.getTickCount()
 tickFrequency   = cv2.getTickFrequency()
 tickDeltaReport = tickFrequency*5      # ticks for 5 secs
 tickDeltaFrame  = tickFrequency/fpsMax # ticks between frames
-
 
 framePrevious   = np.array(ImageGrab.grab(), dtype=np.uint8)
 lastTime        = cv2.getTickCount()
@@ -86,8 +96,9 @@ while True:
             frameSmall = imutils.resize(frame, height=resolution) # 6ms
             # print((cv2.getTickCount()-e1)/tickFrequency)
             # compress data
-            retCode, jpgBuffer = cv2.imencode(".jpg", frameSmall, 
-                                    [int(cv2.IMWRITE_JPEG_QUALITY), jpegQuality]) #5ms
+            _, jpgBuffer = cv2.imencode(".jpg", frameSmall, 
+                                        [int(cv2.IMWRITE_JPEG_QUALITY), jpegQuality]) #5ms
+            queue.put()
             #sender_0.send_jpg(hostName, jpgBuffer) 
             #sender_1.send_jpg(hostName, jpgBuffer)
             #sender_2.send_jpg(hostName, jpgBuffer)
@@ -95,10 +106,10 @@ while True:
     numFrames += 1
     currentTime = cv2.getTickCount()
 
-    if (currentTime - lastFPSTime) >= tickDeltaReport:
+    if ((currentTime - lastFPSTime) >= tickDeltaReport) and FPS:
         lastFPSTime = currentTime
         # report frame rate
         print("FPS: {}".format(numFrames/5.0))
         numFrames = 0
-        
+       
     time.sleep(1.0/(2.0*fpsMax))
