@@ -45,9 +45,9 @@ FPS = True
 
 # initialize the ImageSender object with the socket address of the server
 sender_0 = imagezmq.ImageSender(connect_to="tcp://{}:5555".format("192.168.8.10"))
-#sender_1 = imagezmq.ImageSender(connect_to="tcp://{}:5555".format("192.168.8.11"))
-#sender_2 = imagezmq.ImageSender(connect_to="tcp://{}:5555".format("192.168.8.12"))
-#sender_3 = imagezmq.ImageSender(connect_to="tcp://{}:5555".format("192.168.8.13"))
+sender_1 = imagezmq.ImageSender(connect_to="tcp://{}:5555".format("192.168.8.11"))
+sender_2 = imagezmq.ImageSender(connect_to="tcp://{}:5555".format("192.168.8.12"))
+sender_3 = imagezmq.ImageSender(connect_to="tcp://{}:5555".format("192.168.8.13"))
 
 # Start screen grab process
 
@@ -74,7 +74,7 @@ while True:
         # frame=sct.grab(sct.monitors[monitor])
         screen = ImageGrab.grab() #200ms 
         frame = np.array(screen, dtype=np.uint8) # 70ms
-        # frame  = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR) # 7ms
+        frame  = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR) # 7ms
         # is there enough change on the screen to warrant sending new image?
         frameDelta = cv2.absdiff(frame, framePrevious) # 25ms
         # e1 = cv2.getTickCount()
@@ -90,9 +90,9 @@ while True:
             _, jpgBuffer = cv2.imencode(".jpg", frameSmall, 
                                         [int(cv2.IMWRITE_JPEG_QUALITY), jpegQuality]) #5ms
             sender_0.send_jpg(hostName, jpgBuffer) 
-            #sender_1.send_jpg(hostName, jpgBuffer)
-            #sender_2.send_jpg(hostName, jpgBuffer)
-            #sender_3.send_jpg(hostName, jpguffer)
+            sender_1.send_jpg(hostName, jpgBuffer)
+            sender_2.send_jpg(hostName, jpgBuffer)
+            sender_3.send_jpg(hostName, jpgBuffer)
     numFrames += 1
     currentTime = cv2.getTickCount()
 
