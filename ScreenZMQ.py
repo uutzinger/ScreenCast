@@ -39,11 +39,12 @@ imageDifference = 50000
 fpsMax = 15
 resolution = 1080
 monitor = 0
+FPS = True
 
 # sct =  mss()
 
 # initialize the ImageSender object with the socket address of the server
-#sender_0 = imagezmq.ImageSender(connect_to="tcp://{}:5555".format("192.168.8.10"))
+sender_0 = imagezmq.ImageSender(connect_to="tcp://{}:5555".format("192.168.8.10"))
 #sender_1 = imagezmq.ImageSender(connect_to="tcp://{}:5555".format("192.168.8.11"))
 #sender_2 = imagezmq.ImageSender(connect_to="tcp://{}:5555".format("192.168.8.12"))
 #sender_3 = imagezmq.ImageSender(connect_to="tcp://{}:5555".format("192.168.8.13"))
@@ -86,16 +87,16 @@ while True:
             frameSmall = imutils.resize(frame, height=resolution) # 6ms
             # print((cv2.getTickCount()-e1)/tickFrequency)
             # compress data
-            retCode, jpgBuffer = cv2.imencode(".jpg", frameSmall, 
-                                    [int(cv2.IMWRITE_JPEG_QUALITY), jpegQuality]) #5ms
-            #sender_0.send_jpg(hostName, jpgBuffer) 
+            _, jpgBuffer = cv2.imencode(".jpg", frameSmall, 
+                                        [int(cv2.IMWRITE_JPEG_QUALITY), jpegQuality]) #5ms
+            sender_0.send_jpg(hostName, jpgBuffer) 
             #sender_1.send_jpg(hostName, jpgBuffer)
             #sender_2.send_jpg(hostName, jpgBuffer)
             #sender_3.send_jpg(hostName, jpguffer)
     numFrames += 1
     currentTime = cv2.getTickCount()
 
-    if (currentTime - lastFPSTime) >= tickDeltaReport:
+    if ((currentTime - lastFPSTime) >= tickDeltaReport) and FPS:
         lastFPSTime = currentTime
         # report frame rate
         print("FPS: {}".format(numFrames/5.0))
