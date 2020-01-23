@@ -9,6 +9,8 @@ ImageZMQ: https://www.pyimagesearch.com/2019/04/15/live-video-streaming-over-net
 
 This code is freeware: no supprt, no warranty, no liability
 
+This code used PyVmMonitor http://pyvmmonitor.com for profiling.
+
 Urs Utiznger 2020
 
 # Installation instructions:
